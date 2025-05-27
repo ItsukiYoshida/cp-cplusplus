@@ -25,6 +25,8 @@ cmake --preset a
 cmake --build --preset a
 ```
 でA問題をビルドできます．他の問題にする場合は適切に`a`を切り替えてください．
+なお，`cmake --preset a`は一回で大丈夫です．
+`CMakeLists.txt`や`CMakePresets.json`を書き換えたなどで，再度cmakeが必要な場合は必ず`cmake --preset a --fresh`を実行してください．
 
 ```
 ctest --preset a
