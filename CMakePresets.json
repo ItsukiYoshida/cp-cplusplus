@@ -16,11 +16,23 @@
       }
     },
     { "name": "a", "inherits": "default" },
-    { "name": "b", "inherits": "default" }
+    { "name": "b", "inherits": "default" },
+    { "name": "c", "inherits": "default" },
+    { "name": "d", "inherits": "default" },
+    { "name": "e", "inherits": "default" },
+    { "name": "f", "inherits": "default" },
+    { "name": "g", "inherits": "default" },
+    { "name": "h", "inherits": "default" }
   ],
   "buildPresets": [
     { "name": "a", "configurePreset": "a" },
-    { "name": "b", "configurePreset": "b" }
+    { "name": "b", "configurePreset": "b" },
+    { "name": "c", "configurePreset": "c" },
+    { "name": "d", "configurePreset": "d" },
+    { "name": "e", "configurePreset": "e" },
+    { "name": "f", "configurePreset": "f" },
+    { "name": "g", "configurePreset": "g" },
+    { "name": "h", "configurePreset": "h" }
   ],
   "testPresets": [
     {
@@ -31,6 +43,36 @@
     {
       "name": "b",
       "configurePreset": "b",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "c",
+      "configurePreset": "c",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "d",
+      "configurePreset": "d",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "e",
+      "configurePreset": "e",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "f",
+      "configurePreset": "f",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "g",
+      "configurePreset": "g",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "h",
+      "configurePreset": "h",
       "output": { "outputOnFailure": true }
     }
   ]
