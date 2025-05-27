@@ -3,6 +3,17 @@
 sudo apt update
 sudo apt install build-essential cmake ninja-build
 ```
+
+# How To Clone
+絶対に下のコマンドでクローンするんやで．これでクローンしてなくて動かないとか言うなよ．
+```
+git clone --recurse-submodules git@github.com:ItsukiYoshida/cp-cplusplus.git
+```
+もし，間違えてオプションなしでクローンした間抜けがいた場合は下のコマンドを打つんや．
+```
+git submodule update --init --recursive
+```
+
 # How To Use
 test以下に各test caseのinput, outputを記述します．
 複数の入出力にも対応しています．必ず，inputから始まるテキストファイルと，inputをoutputに置き換えたテキストファイルを用意してください．
