@@ -1,0 +1,37 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+	  "cacheVariables": {
+        "TARGET_PROBLEM": "${presetName}"
+      }
+    },
+    { "name": "a", "inherits": "default" },
+    { "name": "b", "inherits": "default" }
+  ],
+  "buildPresets": [
+    { "name": "a", "configurePreset": "a" },
+    { "name": "b", "configurePreset": "b" }
+  ],
+  "testPresets": [
+    {
+      "name": "a",
+      "configurePreset": "a",
+      "output": { "outputOnFailure": true }
+    },
+    {
+      "name": "b",
+      "configurePreset": "b",
+      "output": { "outputOnFailure": true }
+    }
+  ]
+}
