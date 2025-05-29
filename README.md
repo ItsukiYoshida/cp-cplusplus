@@ -4,6 +4,17 @@ sudo apt update
 sudo apt install build-essential cmake ninja-build
 ```
 
+Boostの追加
+```
+cd /tmp
+wget https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
+tar -zxvf boost_1_88_0.tar.gz
+cd boost_1_88_0.tar.gz
+chmod +x bootstrap.sh
+./bootstrap.sh
+sudo ./b2 install -j$(nproc --all)
+```
+
 # How To Clone
 絶対に下のコマンドでクローンするんやで．これでクローンしてなくて動かないとか言うなよ．
 ```
