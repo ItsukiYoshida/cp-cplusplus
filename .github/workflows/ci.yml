@@ -22,6 +22,7 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace env \
           bash -c '
+            set -euo pipefail
             for preset in a b c d e f g h; do
               echo "::group::Configure ($preset)"
               cmake --preset "$preset"
