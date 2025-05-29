@@ -1,0 +1,37 @@
+name: Docker CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t env -f .github/docker/Dockerfile .
+
+      - name: Run build/test matrix in container
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace env \
+          bash -c '
+            for preset in a b c d e f g h; do
+              echo "::group::Configure ($preset)"
+              cmake --preset "$preset"
+              echo "::endgroup::"
+
+              echo "::group::Build ($preset)"
+              cmake --build --preset "$preset"
+              echo "::endgroup::"
+
+              echo "::group::Test ($preset)"
+              ctest --preset "$preset" || exit 1
+              echo "::endgroup::"
+            done
+          '
