@@ -2,7 +2,7 @@ name: Docker CI
 
 on:
   push:
-    branches: [ main add-ci-pipeline ]
+    branches: [ main ]
   pull_request:
     branches: [ main ]
 
