@@ -43,3 +43,5 @@ cmake --build --preset a
 ctest --preset a
 ```
 でA問題をテストできます．他の問題にする場合は適切に`a`を切り替えてください．
+
+ちなみに`export GTEST_COLOR=1`をしておくと出力がちょっと見やすくなります．
