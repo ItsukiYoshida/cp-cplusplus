@@ -18,12 +18,12 @@ jobs:
           submodules: recursive
       
       - name: Pull pre-build CI Image
-        run: docker pull ghcr.io/${{ github.repository }}/ci-env:latest
+        run: docker pull ghcr.io/itsukiyoshida/cp-cplusplus/ci-env:latest
 
       - name: Run build/test matrix in container
         run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace \
-          ghcr.io/${{ github.repository }}/ci-env:latest \
+          docker run --rm -v itsukiyoshida/cp-cplusplus:/workspace -w /workspace \
+          ghcr.io/itsukiyoshida/cp-cplusplus/ci-env:latest \
           bash -c '
             set -euo pipefail
             for preset in a b c d e f g h; do

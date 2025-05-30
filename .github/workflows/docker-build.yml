@@ -28,6 +28,6 @@ jobs:
 
       - name: Build and Push image
         run: |
-          IMAGE_NAME=ghcr.io/${{ github.repository }}/ci-env:latest
+          IMAGE_NAME=ghcr.io/itsukiyoshida/cp-cplusplus/ci-env:latest
           docker build -t $IMAGE_NAME -f .github/docker/Dockerfile .
           docker push $IMAGE_NAME
