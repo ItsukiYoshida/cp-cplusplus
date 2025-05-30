@@ -33,7 +33,7 @@ jobs:
 
       - name: Run build/test matrix in container
         run: |
-          docker run --rm -v itsukiyoshida/cp-cplusplus:/workspace -w /workspace \
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace \
           ghcr.io/itsukiyoshida/cp-cplusplus/ci-env:latest \
           bash -c '
             set -euo pipefail
