@@ -56,3 +56,14 @@ ctest --preset a
 でA問題をテストできます．他の問題にする場合は適切に`a`を切り替えてください．
 
 ちなみに`export GTEST_COLOR=1`をしておくと出力がちょっと見やすくなります．
+
+# For developers
+
+## 実行用コンテナ
+[ghcr上](https://github.com/ItsukiYoshida/cp-cplusplus/pkgs/container/cp-cplusplus%2Fci-env)にすべての依存関係を追加済みのコンテナがアップロードされています．必要に応じて利用してください．  
+なお，このコンテナはCI-Pipelineに利用していますので，必要以上に更新しないでください．
+
+## 依存関係の追加
+依存関係を追加した場合は，[Dockerfile](.github/docker/Dockerfile)を更新してください．  
+[Dockerfile](.github/docker/Dockerfile)または，[docker-build.yml](.github/workflows/docker-build.yml)を変更し，pushした場合はghcr上のコンテナがリビルドされます．
+だいたい15-20分くらいかかります．  
