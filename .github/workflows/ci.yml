@@ -33,7 +33,11 @@ jobs:
 
       - name: Run build/test matrix in container
         run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace \
+          mkdir -p test-tesults
+          docker run --rm \ 
+          -v ${{ github.workspace }}:/workspace -w /workspace \
+          -v ${{ github.workspace }}/test-results:/workspace/test-results \
+          -w /workspace \
           ghcr.io/itsukiyoshida/cp-cplusplus/ci-env:latest \
           bash -c '
             set -euo pipefail
@@ -48,7 +52,14 @@ jobs:
               echo "::endgroup::"
 
               echo "::group::Test ($preset)"
-              ctest --preset "$preset" || exit 1
+              ctest --preset "$preset" --output-junit test-results/$preset.xml || true
               echo "::endgroup::"
             done
           '
+      - name: Publish test results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: CTest Results
+          path: test-results/*.xml
+          reporter: java-junit
