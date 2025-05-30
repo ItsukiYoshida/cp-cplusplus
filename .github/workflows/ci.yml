@@ -10,6 +10,7 @@ on:
 permissions:
   contents: read
   packages: read
+  checks: write
 
 jobs:
   build:
