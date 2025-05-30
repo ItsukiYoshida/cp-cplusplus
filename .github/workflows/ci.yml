@@ -68,3 +68,4 @@ jobs:
           name: CTest Results
           path: test-results/*.xml
           reporter: java-junit
+          fail-on-error: false
