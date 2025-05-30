@@ -21,6 +21,9 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Prepare test-results directory
+        run: mkdir -p test-results
+
       - name: Log in to GHCR
         uses: docker/login-action@v2
         with:
@@ -56,6 +59,10 @@ jobs:
                 echo "::endgroup::"
               done
             '
+
+      - name: Debug test-results output
+        if: always()
+        run: ls -R test-results || echo "no test results found"
 
       - name: Publish test results
         uses: dorny/test-reporter@v1
