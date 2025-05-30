@@ -1,0 +1,33 @@
+name: Build Docker Image
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/docker/**'
+      - '.github/workflows/docker-build.yml'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push image
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository }}/ci-env:latest
+          docker build -t $IMAGE_NAME -f .github/docker/Dockerfile .
+          docker push $IMAGE_NAME
