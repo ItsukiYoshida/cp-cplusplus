@@ -37,6 +37,7 @@ jobs:
           ghcr.io/itsukiyoshida/cp-cplusplus/ci-env:latest \
           bash -c '
             set -euo pipefail
+            python3 make_test.py
             for preset in a b c d e f g h; do
               echo "::group::Configure ($preset)"
               cmake --preset "$preset"
