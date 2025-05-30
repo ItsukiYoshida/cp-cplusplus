@@ -33,29 +33,30 @@ jobs:
 
       - name: Run build/test matrix in container
         run: |
-          mkdir -p test-tesults
-          docker run --rm \ 
-          -v ${{ github.workspace }}:/workspace -w /workspace \
-          -v ${{ github.workspace }}/test-results:/workspace/test-results \
-          -w /workspace \
-          ghcr.io/itsukiyoshida/cp-cplusplus/ci-env:latest \
-          bash -c '
-            set -euo pipefail
-            python3 make_test.py
-            for preset in a b c d e f g h; do
-              echo "::group::Configure ($preset)"
-              cmake --preset "$preset"
-              echo "::endgroup::"
+          mkdir -p test-results
+          docker run --rm \
+            -v ${{ github.workspace }}:/workspace \
+            -v ${{ github.workspace }}/test-results:/workspace/test-results \
+            -w /workspace \
+            ghcr.io/itsukiyoshida/cp-cplusplus/ci-env:latest \
+            bash -c '
+              set -euo pipefail
+              (set +e; python3 make_test.py)
+              for preset in a b c d e f g h; do
+                echo "::group::Configure ($preset)"
+                cmake --preset "$preset"
+                echo "::endgroup::"
 
-              echo "::group::Build ($preset)"
-              cmake --build --preset "$preset"
-              echo "::endgroup::"
+                echo "::group::Build ($preset)"
+                cmake --build --preset "$preset"
+                echo "::endgroup::"
 
-              echo "::group::Test ($preset)"
-              ctest --preset "$preset" --output-junit test-results/$preset.xml || true
-              echo "::endgroup::"
-            done
-          '
+                echo "::group::Test ($preset)"
+                ctest --preset "$preset" --output-junit test-results/$preset.xml || true
+                echo "::endgroup::"
+              done
+            '
+
       - name: Publish test results
         uses: dorny/test-reporter@v1
         if: always()
