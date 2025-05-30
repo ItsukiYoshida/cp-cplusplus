@@ -24,4 +24,8 @@ target_link_libraries(test_${TARGET_PROBLEM} gtest_main ${Boost_LIBRARIES})
 enable_testing()
 
 include(GoogleTest)
-gtest_discover_tests(test_${TARGET_PROBLEM})
+gtest_discover_tests(test_${TARGET_PROBLEM}
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+  PROPERTIES
+    ENVIRONMENT "GTEST_OUTPUT=xml:${CMAKE_SOURCE_DIR}/test-results/${TARGET_PROBLEM}.xml"
+)
