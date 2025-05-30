@@ -60,10 +60,6 @@ jobs:
               done
             '
 
-      - name: Debug test-results output
-        if: always()
-        run: ls -R test-results || echo "no test results found"
-
       - name: Publish test results
         uses: dorny/test-reporter@v1
         if: always()
