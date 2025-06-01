@@ -52,9 +52,8 @@ for problem in PROBLEMS:
 
         with open(out_path, 'r') as f:
             raw = f.read()
-            # 末尾に改行があれば1つだけ取り除く
-            if raw.endswith('\n'):
-                raw = raw[:-1]
+            # 末尾のすべての空白文字（改行含む）を削除
+            raw = raw.rstrip()
             expected = escape_cpp_string(raw)
 
         exe_path = os.path.abspath(os.path.join(ROOT_DIR, 'build', problem, problem))
