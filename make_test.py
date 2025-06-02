@@ -51,7 +51,10 @@ for problem in PROBLEMS:
             continue
 
         with open(out_path, 'r') as f:
-            expected = escape_cpp_string(f.read())
+            raw = f.read()
+            # 末尾のすべての空白文字（改行含む）を削除
+            raw = raw.rstrip()
+            expected = escape_cpp_string(raw)
 
         exe_path = os.path.abspath(os.path.join(ROOT_DIR, 'build', problem, problem))
 
