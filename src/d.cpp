@@ -1,6 +1,6 @@
 // https://atcoder.jp/contests/abc292/tasks/abc292_d
 #include <bits/extc++.h>
-#include <atcoder/all>
+#include "atcoder/dsu"
 
 using namespace std;
 using namespace atcoder;
