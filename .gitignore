@@ -2,3 +2,5 @@ build
 tests
 .vscode
 test-results
+generated
+algorithm.pdf
