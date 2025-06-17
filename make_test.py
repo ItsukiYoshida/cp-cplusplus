@@ -1,6 +1,11 @@
 import os
+import sys;
 
 PROBLEMS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+
+if len(sys.argv) > 1:
+    PROBLEMS = sys.argv[1:]
+
 TEMPLATE = '''
 #include <gtest/gtest.h>
 #include <cstdio>
