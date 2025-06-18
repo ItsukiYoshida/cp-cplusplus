@@ -61,14 +61,7 @@ fn expand_file(
                 continue;
             }
         }
-
         if let Some(include_target) = parse_include(trimmed) {
-            if is_system_include(&include_target) {
-                result.push_str(line);
-                result.push('\n');
-                continue;
-            }
-
             let mut included_path = parent_dir.join(&include_target);
             if !included_path.exists() {
                 included_path = include_dirs
@@ -98,8 +91,4 @@ fn parse_include(line: &str) -> Option<String> {
     } else {
         None
     }
-}
-
-fn is_system_include(s: &str) -> bool {
-    s.starts_with('<') && s.ends_with('>')
 }
