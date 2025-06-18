@@ -48,7 +48,6 @@ cpconfigure() { #初期化用
 
 cpbuild() {
 	for arg in $@; do
-		cmake --preset $arg
 		if __is_dir_updated $arg; then
 			python3 make_test.py $arg
 			echo "update test" $arg
