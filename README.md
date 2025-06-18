@@ -57,6 +57,12 @@ ctest --preset a
 
 ちなみに`export GTEST_COLOR=1`をしておくと出力がちょっと見やすくなります．
 
+## auto expander
+ビルド時に自動でexpandしてくれます．expandしたソースは`generated/`に生成されます．
+なお，expandは`user include (#include "hoge.hpp")`に対してのみ実行されるため，expandしてほしくないソースは`system include (#include <hoge.hpp>)`してください．
+現状`ACL`のみに対応しており，`ACL`以外のソースを`user include`するとエラー吐きます．
+後で拡張します．
+
 # For developers
 
 ## 実行用コンテナ
