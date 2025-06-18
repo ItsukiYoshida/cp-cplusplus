@@ -1,7 +1,7 @@
 import os
 import sys;
 
-PROBLEMS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+PROBLEMS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
 
 if len(sys.argv) > 1:
     PROBLEMS = sys.argv[1:]
