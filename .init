@@ -90,3 +90,5 @@ cp() {
 alias cpb=cpbuild
 alias cpt=cptest
 alias cpm=cpmake
+
+cpconfigure
