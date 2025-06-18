@@ -12,7 +12,7 @@ struct Args {
     #[arg(long)]
     output: PathBuf,
 
-    #[arg(long)]
+    #[arg(long, required = true)]
     include: Vec<PathBuf>,
 
     #[arg(long)]
