@@ -26,7 +26,7 @@ __is_dir_updated() {
 	fi
 }
 
-make() {
+cpmake() {
 	python3 make_test.py $@
 
 	if [[ $# -eq 0 ]]; then 
@@ -40,7 +40,7 @@ make() {
 } #無条件ですべてのTestをアップデート．
 
 cpconfigure() { #初期化用
-	make
+	cpmake
 	for problem in ${problems[@]}; do
 		cmake --preset $problem --fresh
 	done
@@ -67,5 +67,26 @@ cptest() {
 	done
 }
 
+cp() {
+	case "$1" in
+		"build"|"b")
+		shift
+		cpbuild "$@"
+		;;
+		"test"|"t")
+		shift
+		cptest "$@"
+		;;
+		"configure"|"c")
+		cpconfigure
+		;;
+		"make"|"m")
+		shift
+		cpmake "$@"
+		;;
+	esac
+}
+
 alias cpb=cpbuild
 alias cpt=cptest
+alias cpm=cpmake
