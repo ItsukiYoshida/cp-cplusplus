@@ -2,3 +2,4 @@ build
 tests
 .vscode
 test-results
+.timestamp

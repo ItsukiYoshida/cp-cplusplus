@@ -1,0 +1,71 @@
+problems=(a b c d e f g h i)
+
+__is_dir_updated() {
+	local input="$1"
+	local dir="test/${input^^}"
+	local timestamp=".timestamp/.timestamp_${dir//\//_}"
+
+	[[ -d ".timestamp" ]] || mkdir -p ".timestamp"
+
+	if [[ ! -d"$dir" ]]; then
+		echo "Erro: "$dir" is not directory" >&2
+		return 2
+	fi
+
+	local last_time=0
+	[[ -f "$timestamp" ]] && last_time=$(<"$timestamp")
+	local current_time
+	current_time=$(find "$dir" -type f -exec stat -c %Y {} + 2>/dev/null | sort -n | tail -1)
+	[[ -z "$current_time" ]] && current_time=0
+
+	if (( current_time > last_time)); then 
+		echo "$current_time" > "$timestamp"
+		return 0
+	else 
+		return 1
+	fi
+}
+
+make() {
+	python3 make_test.py $@
+
+	if [[ $# -eq 0 ]]; then 
+		args=${problems[@]}
+	else
+		args=$@
+	fi
+	for arg in $args; do 
+		__is_dir_updated $arg
+	done
+} #無条件ですべてのTestをアップデート．
+
+cpconfigure() { #初期化用
+	make
+	for problem in ${problems[@]}; do
+		cmake --preset $problem --fresh
+	done
+}
+
+cpbuild() {
+	for arg in $@; do
+		if __is_dir_updated $arg; then
+			python3 make_test.py $arg
+			echo "update test" $arg
+		fi #Testが更新されていた場合は自動で作り直す．
+		cmake --build --preset $arg
+	done
+} #Debug用(buildだけしたいとき用)
+
+cptest() {
+	for arg in $@; do
+		if __is_dir_updated $arg; then
+			python3 make_test.py $arg
+			echo "update test" $arg
+		fi 
+		cmake --build --preset $arg # build済みの場合は ninja: no work to doになるだけなので，やり得
+		ctest --preset $arg
+	done
+}
+
+alias cpb=cpbuild
+alias cpt=cptest
