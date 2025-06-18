@@ -9,7 +9,7 @@ Boostの追加
 cd /tmp
 wget https://archives.boost.io/release/1.88.0/source/boost_1_88_0.tar.gz
 tar -zxvf boost_1_88_0.tar.gz
-cd boost_1_88_0.tar.gz
+cd boost_1_88_0
 chmod +x bootstrap.sh
 ./bootstrap.sh
 sudo ./b2 install -j$(nproc --all)
