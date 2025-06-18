@@ -36,7 +36,10 @@ fn expand_file(
 ) -> Result<String, String> {
     let abs_path = fs::canonicalize(path).map_err(|e| format!("Canonicalize failed: {}", e))?;
     if visited.contains(&abs_path) {
-        return Ok(format!("// Skipped (already included): {}\n", path.display()));
+        return Ok(format!(
+            "// Skipped (already included): {}\n",
+            path.display()
+        ));
     }
     visited.insert(abs_path.clone());
 
@@ -50,14 +53,14 @@ fn expand_file(
     };
     for line in content.lines() {
         let trimmed = line.trim();
-            if is_library {
-                if trimmed.starts_with("//") {
-                    continue;
-                }
-                if trimmed.starts_with("#include <") && trimmed.ends_with('>') {
-                    continue;
-                }
+        if is_library {
+            if trimmed.starts_with("//") {
+                continue;
             }
+            if trimmed.starts_with("#include <") && trimmed.ends_with('>') {
+                continue;
+            }
+        }
 
         if let Some(include_target) = parse_include(trimmed) {
             if is_system_include(&include_target) {
@@ -87,7 +90,6 @@ fn expand_file(
 
     Ok(result)
 }
-
 
 fn parse_include(line: &str) -> Option<String> {
     let trimmed = line.trim();
