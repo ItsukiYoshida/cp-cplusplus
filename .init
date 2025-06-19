@@ -1,3 +1,65 @@
+show_git_branch() {
+	local branchName='';
+	if [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo $?) == '0' ]; then
+		branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || git rev-parse --short HEAD 2> /dev/null || echo '(unknown)')";
+		echo -e "${branchName}";
+	else
+		return;
+	fi;
+}
+
+time_progress_bar() {
+	local START_HOUR=16
+	local START_MIN=30
+	local DURATION_MIN=180
+
+	local NOW_SEC=$(date +%s)
+	local START_SEC=$(date -d "$(printf '%02d:%02d' $START_HOUR $START_MIN)" +%s)
+	local END_SEC=$((START_SEC + DURATION_MIN * 60))
+	local ELAPSED_SEC=$((NOW_SEC - START_SEC))
+	local REMAINING_SEC=$((END_SEC - NOW_SEC))
+
+	if (( NOW_SEC < START_SEC )); then
+		echo -e "\e[32m[----------]\e[0m"
+		return
+	elif (( NOW_SEC > END_SEC )); then
+		echo -e "\e[91m[##########]\e[0m"
+		return
+	fi
+
+	local PROGRESS=$(( ELAPSED_SEC * 100 / (DURATION_MIN * 60) ))
+	local STAGE=$(( PROGRESS / 12 ))
+	if (( STAGE > 7 )); then STAGE=7; fi
+
+	local REMAIN_MIN=$((REMAINING_SEC / 60))
+	local REMAIN_SEC_ONLY=$((REMAINING_SEC % 60))
+	local TIME_REMAIN=$(printf "%02d:%02d" $REMAIN_MIN $REMAIN_SEC_ONLY)
+
+	local COLORS=( "\e[37m" "\e[34m" "\e[36m" "\e[32m" "\e[35m" "\e[33m" "\e[31m" "\e[91m" )
+	local COLOR="${COLORS[$STAGE]}"
+	local RESET="\e[0m"
+
+	local EFFECT=""
+	if (( REMAINING_SEC <= 600 )); then
+		COLOR="\e[97;41m"
+	fi
+
+	local BAR="["
+	for ((i = 0; i < 10; i++)); do
+		if (( i < (PROGRESS / 10) )); then
+			BAR+="#"
+		else
+			BAR+="-"
+		fi
+	done
+	BAR+="]"
+
+	echo -e "${EFFECT}${COLOR}${BAR} (${TIME_REMAIN})${RESET}"
+}
+
+PS1="\$(time_progress_bar):\[\e[34m\]\w\[\e[0m\](\$(show_git_branch))\$ "
+export PS1
+
 problems=(a b c d e f g h i)
 
 __is_dir_updated() {
@@ -7,8 +69,8 @@ __is_dir_updated() {
 
 	[[ -d ".timestamp" ]] || mkdir -p ".timestamp"
 
-	if [[ ! -d"$dir" ]]; then
-		echo "Erro: "$dir" is not directory" >&2
+	if [[ ! -d "$dir" ]]; then
+		echo "Erro: $dir is not directory" >&2
 		return 2
 	fi
 
@@ -27,12 +89,12 @@ __is_dir_updated() {
 }
 
 cpmake() {
-	python3 make_test.py $@
+	python3 make_test.py "$@"
 
 	if [[ $# -eq 0 ]]; then 
-		args=${problems[@]}
+		args="${problems[@]}"
 	else
-		args=$@
+		args="$@"
 	fi
 	for arg in $args; do 
 		__is_dir_updated $arg
@@ -41,13 +103,13 @@ cpmake() {
 
 cpconfigure() { #初期化用
 	cpmake
-	for problem in ${problems[@]}; do
+	for problem in "${problems[@]}"; do
 		cmake --preset $problem --fresh
 	done
 }
 
 cpbuild() {
-	for arg in $@; do
+	for arg in "$@"; do
 		if __is_dir_updated $arg; then
 			python3 make_test.py $arg
 			echo "update test" $arg
@@ -57,17 +119,18 @@ cpbuild() {
 } #Debug用(buildだけしたいとき用)
 
 cptest() {
-	for arg in $@; do
+	for arg in "$@"; do
 		if __is_dir_updated $arg; then
 			python3 make_test.py $arg
 			echo "update test" $arg
 		fi 
 		cmake --build --preset $arg # build済みの場合は ninja: no work to doになるだけなので，やり得
 		ctest --preset $arg
+		cat generated/"$arg"_expanded.cpp | xclip -selection clipboard
 	done
 }
 
-cp() {
+cpc() {
 	case "$1" in
 		"build"|"b")
 		shift
@@ -90,5 +153,6 @@ cp() {
 alias cpb=cpbuild
 alias cpt=cptest
 alias cpm=cpmake
+alias clip="xclip -selection clipboard"
 
 cpconfigure
