@@ -25,4 +25,7 @@ RUN cd /tmp && \
 ENV BOOST_ROOT=/opt/boost
 ENV CMAKE_PREFIX_PATH=$BOOST_ROOT
 
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
 WORKDIR /workspace
