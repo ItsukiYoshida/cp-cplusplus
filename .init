@@ -70,7 +70,7 @@ __is_dir_updated() {
 	[[ -d ".timestamp" ]] || mkdir -p ".timestamp"
 
 	if [[ ! -d "$dir" ]]; then
-		echo "Erro: $dir is not directory" >&2
+		echo "Error: $dir is not directory" >&2
 		return 2
 	fi
 
