@@ -1,7 +1,7 @@
 import os
 import sys;
 
-PROBLEMS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+PROBLEMS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
 
 if len(sys.argv) > 1:
     PROBLEMS = sys.argv[1:]
@@ -41,11 +41,11 @@ def escape_cpp_string(s):
 ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 
 for problem in PROBLEMS:
-    tdir = os.path.join(ROOT_DIR, 'test', problem)
+    tdir = os.path.join(ROOT_DIR, 'test', problem.upper())
     if not os.path.exists(tdir):
         continue
 
-    answers = sorted([f for f in os.listdir(tdir) if f.startswith(problem) and f.endswith('.ans')])
+    answers = sorted([f for f in os.listdir(tdir) if f.startswith(problem.upper()) and f.endswith('.ans')])
     test_cases = []
 
     for idx, answer_file in enumerate(answers):

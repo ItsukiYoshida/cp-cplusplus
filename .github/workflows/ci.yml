@@ -46,7 +46,7 @@ jobs:
             bash -c '
               set -euo pipefail
               (set +e; python3 make_test.py)
-              for preset in a b c d e f g h; do
+              for preset in a b c d e f g h i; do
                 echo "::group::Configure ($preset)"
                 cmake --preset "$preset"
                 echo "::endgroup::"

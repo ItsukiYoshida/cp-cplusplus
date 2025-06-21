@@ -2,5 +2,6 @@ build
 tests
 .vscode
 test-results
+.timestamp
 generated
 algorithm.pdf
