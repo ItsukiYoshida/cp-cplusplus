@@ -131,6 +131,17 @@ cptest() {
 	done
 }
 
+cprun() {
+	for arg in "$@"; do
+		if __is_dir_updated $arg; then
+			python3 make_test.py $arg
+			echo "update test" $arg
+		fi
+		cmake --build --preset $arg
+		./build/"$arg"/"$arg"
+	done
+}
+
 cpc() {
 	case "$1" in
 		"build"|"b")
@@ -147,6 +158,10 @@ cpc() {
 		"make"|"m")
 		shift
 		cpmake "$@"
+		;;
+		"run"|"r")
+		shift
+		cprun "$@"
 		;;
 	esac
 }
