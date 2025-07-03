@@ -102,6 +102,7 @@ cpmake() {
 } #無条件ですべてのTestをアップデート．
 
 cpconfigure() { #初期化用
+	rm -rf build
 	cpmake
 	for problem in "${problems[@]}"; do
 		cmake --preset $problem --fresh
