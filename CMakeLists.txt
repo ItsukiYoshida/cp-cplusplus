@@ -49,6 +49,8 @@ add_custom_target(generate_expanded_src ALL
 )
 
 add_executable(${TARGET_PROBLEM} ${SRC_FILE})
+target_compile_definitions(${TARGET_PROBLEM} PRIVATE LOCAL)
+include_directories(include)
 
 target_include_directories(${TARGET_PROBLEM} PRIVATE ${Boost_INCLUDE_DIRS} external/ac-library)
 target_link_libraries(${TARGET_PROBLEM} ${Boost_LIBRARIES})
