@@ -77,7 +77,7 @@ __is_dir_updated() {
 	local last_time=0
 	[[ -f "$timestamp" ]] && last_time=$(<"$timestamp")
 	local current_time
-	current_time=$(find "$dir" -type f -exec stat -c %Y {} + 2>/dev/null | sort -n | tail -1)
+	current_time=$( (find "$dir" -type f -exec stat -c %Y {} + 2>/dev/null; stat -c %Y "$dir") | sort -n | tail -1 )
 	[[ -z "$current_time" ]] && current_time=0
 
 	if (( current_time > last_time)); then 
@@ -171,4 +171,4 @@ alias cpt=cptest
 alias cpm=cpmake
 alias clip="xclip -selection clipboard"
 
-cpconfigure
+# cpconfigure
