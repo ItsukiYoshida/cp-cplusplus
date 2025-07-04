@@ -142,27 +142,48 @@ cprun() {
 	done
 }
 
+cphelp() {
+	cat << EOF
+競技プログラミング用コマンド:
+  cpc build|b [problems...]  - ビルド
+  cpc test|t [problems...]   - テスト実行 (結果をクリップボードにコピー)
+  cpc run|r [problems...]    - 実行
+  cpc make|m [problems...]   - テスト生成
+  cpc configure|c            - 初期設定
+
+有効な問題: ${problems[*]}
+例: cpc test a b c
+EOF
+}
+
 cpc() {
 	case "$1" in
 		"build"|"b")
-		shift
-		cpbuild "$@"
-		;;
+			shift
+			cpbuild "$@"
+			;;
 		"test"|"t")
-		shift
-		cptest "$@"
-		;;
+			shift
+			cptest "$@"
+			;;
 		"configure"|"c")
-		cpconfigure
-		;;
+			cpconfigure
+			;;
 		"make"|"m")
-		shift
-		cpmake "$@"
-		;;
+			shift
+			cpmake "$@"
+			;;
 		"run"|"r")
-		shift
-		cprun "$@"
-		;;
+			shift
+			cprun "$@"
+			;;
+		"help"|"h"|"")
+			cphelp
+			;;
+		*)
+			echo "Unknown command: $1" >&2
+			cphelp
+			;;
 	esac
 }
 
