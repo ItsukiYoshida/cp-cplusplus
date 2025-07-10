@@ -1,10 +1,9 @@
-use std::path::PathBuf;
 use clap::Parser;
+use std::path::PathBuf;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 pub struct Args {
-
     #[arg(short = 'p', long)]
     project_root: Option<PathBuf>,
 
@@ -26,9 +25,9 @@ impl Config {
 
 impl From<Args> for Config {
     fn from(args: Args) -> Self {
-        Config { 
-            project_root: args.project_root, 
-            problems: args.problems 
+        Config {
+            project_root: args.project_root,
+            problems: args.problems,
         }
     }
 }
