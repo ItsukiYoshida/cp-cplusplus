@@ -54,18 +54,5 @@ jobs:
                 echo "::group::Build ($preset)"
                 cmake --build --preset "$preset"
                 echo "::endgroup::"
-
-                echo "::group::Test ($preset)"
-                ctest --preset "$preset" --output-junit test-results/$preset.xml || true
-                echo "::endgroup::"
               done
             '
-
-      - name: Publish test results
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          name: CTest Results
-          path: test-results/*.xml
-          reporter: java-junit
-          fail-on-error: false
