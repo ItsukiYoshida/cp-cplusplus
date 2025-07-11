@@ -17,7 +17,13 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new() -> Self {
+    pub fn new(project_root: PathBuf, problems: Vec<String>) -> Self {
+        Self { 
+            project_root: Some(project_root), 
+            problems: Some(problems),
+        }
+    }
+    pub fn from_args() -> Self {
         let args = Args::parse();
         args.into()
     }
