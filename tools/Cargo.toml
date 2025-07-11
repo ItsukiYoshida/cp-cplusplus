@@ -8,7 +8,6 @@ publish.workspace = true
 [workspace]
 members = [
     "expander",
-    "manager",
     "test-generator",
 ]
 resolver = "3"
@@ -21,6 +20,18 @@ license = "MIT"
 [workspace.dependencies]
 clap = { version = "4.5.40", features = ["derive"] }
 anyhow = "1.0.98"
+rstest = "0.25.0"
+
+[dependencies]
+clap.workspace = true
+anyhow.workspace = true
+rstest.workspace = true
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+ratatui = "0.29.0"
+
+test-generator = { path = "test-generator" }
+expander = { path = "expander" }
 
 [[bin]]
 name = "manager"
