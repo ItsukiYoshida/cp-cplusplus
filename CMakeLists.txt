@@ -28,35 +28,13 @@ if(NOT DEFINED USER_SOURCE_DIR)
 endif()
 
 set(SRC_FILE "${USER_SOURCE_DIR}/src/${TARGET_PROBLEM}.cpp")
-set(OUTPUT "${USER_SOURCE_DIR}/generated/${TARGET_PROBLEM}_expanded.cpp")
-set(ACL_INCLUDE "${CMAKE_SOURCE_DIR}/external/ac-library")
-set(EXPANDER "${CMAKE_SOURCE_DIR}/tools/target/release/expander")
-
-add_custom_command(
-  OUTPUT ${OUTPUT}
-  COMMAND ${EXPANDER}
-    --input ${SRC_FILE}
-    --output ${OUTPUT}
-    --include ${ACL_INCLUDE}
-    --project-root ${USER_SOURCE_DIR}
-  DEPENDS ${SRC_FILE} ${EXPANDER}
-  COMMENT "Expanding ${TARGET_PROBLEM}.cpp to ${TARGET_PROBLEM}_expanded.cpp"
-)
-
-add_custom_target(generate_expanded_src_target
-  DEPENDS ${OUTPUT}
-)
-add_dependencies(generate_expanded_src_target expander_build)
-
-add_custom_target(generate_expanded_src ALL
-  DEPENDS generate_expanded_src_target
-)
+set(ACL_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/external/ac-library")
 
 add_executable(${TARGET_PROBLEM} ${SRC_FILE})
 target_compile_definitions(${TARGET_PROBLEM} PRIVATE LOCAL)
 include_directories(include)
 
-target_include_directories(${TARGET_PROBLEM} PRIVATE ${Boost_INCLUDE_DIRS} external/ac-library)
+target_include_directories(${TARGET_PROBLEM} PRIVATE ${Boost_INCLUDE_DIRS} ${ACL_INCLUDE_DIRS})
 target_link_libraries(${TARGET_PROBLEM} ${Boost_LIBRARIES})
 
 add_executable(test_${TARGET_PROBLEM} ${USER_SOURCE_DIR}/tests/generated_test_${TARGET_PROBLEM}.cpp)
