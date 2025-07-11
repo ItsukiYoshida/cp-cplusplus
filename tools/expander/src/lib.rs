@@ -1,14 +1,19 @@
 pub mod model;
+use model::Config;
 use std::collections::HashSet;
 use std::fs;
 use std::io::Write;
 use std::path::{Path, PathBuf};
-use model::Config;
 
-pub fn run(config: Config) -> anyhow::Result<()>{
+pub fn run(config: Config) -> anyhow::Result<()> {
     let mut visited = HashSet::new();
-    let content = expand_file(&config.input, &config.include, &mut visited, &config.project_root)
-        .unwrap_or_else(|e| panic!("Expand failed: {}", e));
+    let content = expand_file(
+        &config.input,
+        &config.include,
+        &mut visited,
+        &config.project_root,
+    )
+    .unwrap_or_else(|e| panic!("Expand failed: {}", e));
     let mut f = fs::File::create(&config.output).expect("Failed to write output");
     f.write_all(content.as_bytes())?;
     Ok(())

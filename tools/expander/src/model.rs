@@ -1,8 +1,7 @@
-use std::path::PathBuf;
 use clap::Parser;
+use std::path::PathBuf;
 
-#[derive(Parser, 
-    Debug)]
+#[derive(Parser, Debug)]
 pub struct Args {
     #[arg(long)]
     input: PathBuf,
@@ -31,11 +30,17 @@ impl Config {
 
 impl From<Args> for Config {
     fn from(args: Args) -> Self {
-        Config { 
-            input: args.input, 
-            output: args.output, 
-            include: args.include, 
-            project_root: args.project_root 
+        Config {
+            input: args.input,
+            output: args.output,
+            include: args.include,
+            project_root: args.project_root,
         }
+    }
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self::new()
     }
 }
