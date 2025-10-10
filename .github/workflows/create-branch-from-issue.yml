@@ -1,0 +1,22 @@
+experimental:
+  branchNameArgument: true
+
+branches:
+  - label: enhancement
+    prefix: 'feature/'
+  - label: bug
+    prefix: 'bugfix/'
+  - label: chore
+    prefix: 'chore/'
+  - label: '*'
+    prefix: 'topic/'  
+
+branchName: '${issue.number}-${issue.title,}'
+gitSafeReplacementChar: '-'
+
+openPR: true
+
+copyIssueDescriptionToPR: true
+copyIssueLabelsToPR: true
+copyIssueAssigneeToPR: true
+copyPullRequestTemplateToPR: true
