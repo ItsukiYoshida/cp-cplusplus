@@ -4,9 +4,14 @@ on:
   issue_comment:
     types: [created]
 
+permissions:
+  contents: write
+  issues: write
+  pull-request: write
+
 jobs:
   create_branch:
-    if: ${{ github.event.issue.pull_request == null }}
+    if: ${{ github.event.issue.pull_request == null && contains(github.event.comment.body, '/cib') }}
     runs-on: ubuntu-latest
     steps:
       - uses: robvanderleek/create-issue-branch@main
