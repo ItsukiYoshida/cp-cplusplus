@@ -1,22 +1,14 @@
-experimental:
-  branchNameArgument: true
+name: create issue branch
 
-branches:
-  - label: enhancement
-    prefix: 'feature/'
-  - label: bug
-    prefix: 'bugfix/'
-  - label: chore
-    prefix: 'chore/'
-  - label: '*'
-    prefix: 'topic/'  
+on:
+  issue_comment:
+    types: [created]
 
-branchName: '${issue.number}-${issue.title,}'
-gitSafeReplacementChar: '-'
-
-openPR: true
-
-copyIssueDescriptionToPR: true
-copyIssueLabelsToPR: true
-copyIssueAssigneeToPR: true
-copyPullRequestTemplateToPR: true
+jobs:
+  create_branch:
+    if: ${{ github.event.issue.pull_request == null }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: robvanderleek/create-issue-branch@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
